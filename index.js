@@ -32,6 +32,27 @@ async function run() {
 
             res.send(users);
         })
+
+        app.post("/billing-list", async (req, res) => {
+            const bills = req.body;
+            await usersCollection.insertOne(bills);
+            res.send(bills);
+        })
+
+        app.delete("/billing-list/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            await usersCollection.deleteOne(query);
+            res.send(id);
+        })
+
+        app.put("/billing-list/:id", async (req, res) => {
+            const id = req.params.id;
+            const bills = req.body;
+            const query = { _id: ObjectId(id) };
+            await usersCollection.updateOne(query, { $set: bills });
+            res.send(bills);
+        })
   
       
     }
